@@ -34,3 +34,5 @@ print(var3 + "你好")
 
 print("hello \t" + var3)
 print (r"hello \t" + var3)
+
+print(var3.encode)
