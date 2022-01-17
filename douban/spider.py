@@ -24,10 +24,8 @@ def getData(baseurl):
     datalist = []
     return datalist
 
-
 def saveData(datalist, savepath):
     print("save....")
-
 
 if __name__ == "__main__":
     # invoke method 
