@@ -40,3 +40,10 @@ print(type(bs))
 print(bs.name)
 print(bs.attrs)
 
+print("-"*30)
+print(bs.head.content)
+print(bs.head.children)
+
+print("-"*30)
+# 搜索练习
+
