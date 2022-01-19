@@ -16,7 +16,7 @@ def main():
     # 爬取网页
     datalist = getData(baseurl)
     # 逐一解析数据
-    savepath = ".\\豆瓣电影Top250.xls"
+    savepath = "豆瓣电影Top250.xls"
     # 保存数据
     saveData(datalist, savepath)
 
@@ -83,7 +83,18 @@ def getData(baseurl):
 
 def saveData(datalist, savepath):
     print("save....")
+    spiderFile = xlwt.Workbook(encoding='utf-8')
+    sheet = spiderFile.add_sheet("豆瓣电影top", cell_overwrite_ok=True)
+    colNames = ("电影链接", "电影名称", "外国名称")
+    for i in range(len(colNames)):
+        sheet.write(0, i, colNames[i])
     
+    for i in range(len(datalist)):
+        data = datalist[i]
+        for j in range(len(data)):
+            sheet.write(i+1, j, data[j])
+    spiderFile.save(savepath)
+
 
 
 
@@ -102,8 +113,6 @@ def askUrl(baseUrl):
     except Exception as r:
         print("askUrl()发生异常")
         print(r)
-
-
 
 if __name__ == "__main__":
     # invoke method 
