@@ -16,9 +16,11 @@ def main():
     # 爬取网页
     datalist = getData(baseurl)
     # 逐一解析数据
-    savepath = "豆瓣电影Top250.xls"
-    # 保存数据
-    saveData(datalist, savepath)
+    # savepath = "豆瓣电影Top250.xls"
+    # 保存excel数据
+    # saveData(datalist, savepath)
+    dbpath = "spider.db"
+    saveData2Db(datalist, dbpath)
 
 
 findLink = re.compile(r'<a href="(.*?)">')
@@ -94,6 +96,43 @@ def saveData(datalist, savepath):
         for j in range(len(data)):
             sheet.write(i+1, j, data[j])
     spiderFile.save(savepath)
+
+def saveData2Db(datalist, dbpath):
+    # initDb(dbpath)
+    conn = sqlite3.connect(dbpath)
+    cur = conn.cursor()
+    for data in datalist:
+        print(data)
+        for index in range(len(data)):
+            data[index] = '"'+ data[index] + '"'
+        sql = '''
+                insert into movie(link, title, ex_title)
+                values (%s)
+            '''%",".join(data)
+        print(sql)
+        cur.execute(sql)
+        conn.commit()
+
+
+    cur.close()
+    conn.close()
+
+def initDb(dbpath):
+    sql = '''
+        create table movie 
+        (
+            id integer primary key autoincrement,
+            link text not null,
+            title text not null,
+            ex_title text 
+        )
+    '''
+    conn = sqlite3.connect(dbpath)
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    conn.commit()
+    conn.close
+    print("表初始化成功")
 
 
 
